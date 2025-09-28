@@ -1,19 +1,30 @@
 package br.com.alura.AluraFake.course;
-
-import br.com.alura.AluraFake.user.*;
+ 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import br.com.alura.AluraFake.user.Role;
+import br.com.alura.AluraFake.user.User;
+import br.com.alura.AluraFake.user.UserRepository;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.*;
-
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.Arrays;
+import java.util.Optional;
 
 @WebMvcTest(CourseController.class)
 class CourseControllerTest {
@@ -21,22 +32,25 @@ class CourseControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private UserRepository userRepository;
+    private CourseService courseService;
     @MockBean
     private CourseRepository courseRepository;
+    @MockBean
+    private UserRepository userRepository;
+    @SpyBean
+    private CourseListItemDTOMapper courseListItemDTOMapper;
+    @SpyBean
+    private NewCourseDTOMapper newCourseDTOMapper;
     @Autowired
     private ObjectMapper objectMapper;
 
     @Test
     void newCourseDTO__should_return_bad_request_when_email_is_invalid() throws Exception {
 
-        NewCourseDTO newCourseDTO = new NewCourseDTO();
-        newCourseDTO.setTitle("Java");
-        newCourseDTO.setDescription("Curso de Java");
-        newCourseDTO.setEmailInstructor("paulo@alura.com.br");
+        NewCourseDTO newCourseDTO = new NewCourseDTO("Java", "Curso de Java", "paulo@alura.com.br");
 
         doReturn(Optional.empty()).when(userRepository)
-                .findByEmail(newCourseDTO.getEmailInstructor());
+                .findByEmail(newCourseDTO.emailInstructor());
 
         mockMvc.perform(post("/course/new")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -46,20 +60,16 @@ class CourseControllerTest {
                 .andExpect(jsonPath("$.message").isNotEmpty());
     }
 
-
     @Test
     void newCourseDTO__should_return_bad_request_when_email_is_no_instructor() throws Exception {
 
-        NewCourseDTO newCourseDTO = new NewCourseDTO();
-        newCourseDTO.setTitle("Java");
-        newCourseDTO.setDescription("Curso de Java");
-        newCourseDTO.setEmailInstructor("paulo@alura.com.br");
+        NewCourseDTO newCourseDTO = new NewCourseDTO("Java", "Curso de Java", "paulo@alura.com.br");
 
         User user = mock(User.class);
         doReturn(false).when(user).isInstructor();
 
         doReturn(Optional.of(user)).when(userRepository)
-                .findByEmail(newCourseDTO.getEmailInstructor());
+                .findByEmail(newCourseDTO.emailInstructor());
 
         mockMvc.perform(post("/course/new")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -72,22 +82,19 @@ class CourseControllerTest {
     @Test
     void newCourseDTO__should_return_created_when_new_course_request_is_valid() throws Exception {
 
-        NewCourseDTO newCourseDTO = new NewCourseDTO();
-        newCourseDTO.setTitle("Java");
-        newCourseDTO.setDescription("Curso de Java");
-        newCourseDTO.setEmailInstructor("paulo@alura.com.br");
+        NewCourseDTO newCourseDTO = new NewCourseDTO("Java", "Curso de Java", "paulo@alura.com.br");
 
         User user = mock(User.class);
         doReturn(true).when(user).isInstructor();
 
-        doReturn(Optional.of(user)).when(userRepository).findByEmail(newCourseDTO.getEmailInstructor());
+        doReturn(Optional.of(user)).when(userRepository).findByEmail(newCourseDTO.emailInstructor());
 
         mockMvc.perform(post("/course/new")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(newCourseDTO)))
                 .andExpect(status().isCreated());
 
-        verify(courseRepository, times(1)).save(any(Course.class));
+        verify(courseService, times(1)).create(any(Course.class));
     }
 
     @Test
@@ -98,7 +105,7 @@ class CourseControllerTest {
         Course hibernate = new Course("Hibernate", "Curso de hibernate", paulo);
         Course spring = new Course("Spring", "Curso de spring", paulo);
 
-        when(courseRepository.findAll()).thenReturn(Arrays.asList(java, hibernate, spring));
+        when(courseService.listAll()).thenReturn(Arrays.asList(java, hibernate, spring));
 
         mockMvc.perform(get("/course/all")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -110,5 +117,4 @@ class CourseControllerTest {
                 .andExpect(jsonPath("$[2].title").value("Spring"))
                 .andExpect(jsonPath("$[2].description").value("Curso de spring"));
     }
-
 }
