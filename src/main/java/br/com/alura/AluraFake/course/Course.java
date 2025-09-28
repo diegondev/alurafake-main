@@ -1,18 +1,19 @@
 package br.com.alura.AluraFake.course;
 
+import br.com.alura.AluraFake.shared.base.BaseEntity;
 import br.com.alura.AluraFake.user.User;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.ManyToOne;
+
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 
 @Entity
-public class Course {
+public class Course extends BaseEntity<Long> {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private LocalDateTime createdAt = LocalDateTime.now();
     private String title;
     private String description;
     @ManyToOne
@@ -30,14 +31,6 @@ public class Course {
         this.instructor = instructor;
         this.description = description;
         this.status = Status.BUILDING;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
     }
 
     public String getTitle() {
