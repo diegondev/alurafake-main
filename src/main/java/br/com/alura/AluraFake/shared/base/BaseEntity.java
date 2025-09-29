@@ -2,12 +2,12 @@ package br.com.alura.AluraFake.shared.base;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 
-@Entity
+@MappedSuperclass
 public class BaseEntity<T> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,6 +16,10 @@ public class BaseEntity<T> {
 
     public T getId() {
         return id;
+    }
+
+    public void setId(T id) {
+        this.id = id;
     }
 
     public LocalDateTime getCreatedAt() {

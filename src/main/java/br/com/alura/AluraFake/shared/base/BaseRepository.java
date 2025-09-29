@@ -5,6 +5,7 @@ import java.util.Optional;
 
 public interface BaseRepository<T extends BaseEntity<ID>, ID> {
     T save(T entity);
+    List<T> saveAll(List<T> entities);
     List<T> findAll();
     Optional<T> findById(ID id);
     void deleteById(ID id);

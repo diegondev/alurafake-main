@@ -1,5 +1,7 @@
 package br.com.alura.AluraFake.course;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import br.com.alura.AluraFake.shared.base.BaseRepository;
@@ -16,6 +18,11 @@ public class CourseRepository implements BaseRepository<Course, Long> {
     @Override
     public Course save(Course entity) {
         return repository.save(entity);
+    }
+    
+    @Override
+    public List<Course> saveAll(List<Course> entities) {
+        return repository.saveAll(entities);
     }
 
     @Override
