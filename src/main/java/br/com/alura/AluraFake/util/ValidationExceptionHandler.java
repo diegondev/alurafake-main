@@ -25,4 +25,9 @@ public class ValidationExceptionHandler {
         ErrorItemDTO error = new ErrorItemDTO(ex.getField(), ex.getMessage());
         return ResponseEntity.badRequest().body(error);
     }
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ErrorMessageDTO> handleBusinessException(BusinessException ex) {
+        return ResponseEntity.badRequest().body(new ErrorMessageDTO(ex.getMessage()));
+    }
 }
