@@ -1,7 +1,11 @@
 package br.com.alura.AluraFake.course;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface JpaCourseRepository extends JpaRepository<Course, Long> {
+import br.com.alura.AluraFake.user.User;
 
+public interface JpaCourseRepository extends JpaRepository<Course, Long> {
+    List<Course> findByInstructor(User instructor);
 }

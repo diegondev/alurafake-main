@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import br.com.alura.AluraFake.shared.base.BaseRepository;
+import br.com.alura.AluraFake.user.User;
 
 @Repository
 public class CourseRepository implements BaseRepository<Course, Long> {
@@ -38,5 +39,9 @@ public class CourseRepository implements BaseRepository<Course, Long> {
     @Override
     public void deleteById(Long id) {
         repository.deleteById(id);
+    }
+
+    public List<Course> findByInstructor(User instructor) {
+        return repository.findByInstructor(instructor);
     }
 }
