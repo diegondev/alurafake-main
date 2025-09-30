@@ -14,7 +14,7 @@ public class BaseService<T extends BaseEntity<ID>, R extends BaseRepository<T, I
     }
 
     public T getById(ID id) {
-        return repository.findById(id).orElseThrow();
+        return repository.findById(id).orElse(null);
     }
 
     public List<T> listAll() {

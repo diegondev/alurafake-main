@@ -18,11 +18,13 @@ public class TaskRepository implements ITaskRepository {
 
     @Override
     public Task save(Task entity) {
+        beforeSave(entity);
         return repository.save(entity);
     }
     
     @Override
     public List<Task> saveAll(List<Task> tasks) {
+        tasks.forEach(this::beforeSave);
         return repository.saveAll(tasks);
     }
 
@@ -51,6 +53,10 @@ public class TaskRepository implements ITaskRepository {
 
     public Optional<Integer> findMaxOrderByCourse(Course course) {
         return repository.findMaxOrderByCourse(course);
+    }
+
+    private void beforeSave(Task entity) {
+        entity.getOptions().forEach(option -> option.setTask(entity));
     }
     
 }

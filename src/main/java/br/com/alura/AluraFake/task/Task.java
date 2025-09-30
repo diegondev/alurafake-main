@@ -18,6 +18,8 @@ import jakarta.persistence.OneToMany;
 @Entity
 public class Task extends BaseEntity<Long> {
 
+    public Task() {}
+
     public Task(Course course, String statement, Integer order, TaskType type, List<TaskOption> options) {
         this.course = course;
         this.statement = statement;
@@ -68,6 +70,14 @@ public class Task extends BaseEntity<Long> {
     }
 
     public List<TaskOption> getOptions() {
+        if (options == null) {
+            options = new ArrayList<>();
+        }
+        
         return options;
+    }
+
+    public void setOptions(List<TaskOption> options) {
+        this.options = options;
     }
 }

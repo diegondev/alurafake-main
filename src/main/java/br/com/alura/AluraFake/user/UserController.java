@@ -25,7 +25,6 @@ public class UserController {
 
     @Transactional
     @PostMapping("/user/new")
-    
     public ResponseEntity newStudent(@RequestBody @Valid NewUserDTO newUser) {
         if(userService.existsByEmail(newUser.getEmail())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

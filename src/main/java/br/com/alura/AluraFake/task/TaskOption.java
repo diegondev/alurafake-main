@@ -11,7 +11,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "TaskOptions")
+@Table(name = "TaskOption")
 public class TaskOption {
 
     @Id
@@ -28,6 +28,12 @@ public class TaskOption {
     @Column(name = "is_correct", nullable = false)
     private boolean isCorrect;
 
+    public TaskOption(Task task, String option, boolean isCorrect) {
+        this.task = task;
+        this.option = option;
+        this.isCorrect = isCorrect;
+    }
+
     public TaskOption(String option, boolean isCorrect) {
         this.option = option;
         this.isCorrect = isCorrect;
@@ -35,6 +41,10 @@ public class TaskOption {
 
     public Task getTask() {
         return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
     }
 
     public String getOption() {

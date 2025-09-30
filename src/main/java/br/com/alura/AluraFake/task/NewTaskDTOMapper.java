@@ -1,5 +1,7 @@
 package br.com.alura.AluraFake.task;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import br.com.alura.AluraFake.course.Course;
@@ -19,8 +21,8 @@ public class NewTaskDTOMapper implements BaseMapper<Task, NewTaskDTO> {
     @Override
     public Task toEntity(NewTaskDTO dto) {
         Course course = getCourse(dto.courseId());
-
-        return new Task(course, dto.statement(), dto.order(), null, null);
+        Task task = new Task(course, dto.statement(), dto.order(), null, toOptions(dto));
+        return task;
     }
 
     @Override
@@ -34,6 +36,18 @@ public class NewTaskDTOMapper implements BaseMapper<Task, NewTaskDTO> {
             throw new ValidationException("courseId", "Curso com id " + courseId + " não encontrado");
         }
         return course;
+    }
+
+    private List<TaskOption> toOptions(NewTaskDTO newTaskDTO) {
+        List<NewTaskOptionDTO> optionsDTO = newTaskDTO.options();
+
+        if (optionsDTO == null) {
+            return List.of();
+        }
+
+        return optionsDTO.stream()
+                .map(dto -> new TaskOption(dto.option(), dto.isCorrect()))
+                .toList();
     }
     
 }
