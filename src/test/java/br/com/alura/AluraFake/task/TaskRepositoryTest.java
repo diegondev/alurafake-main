@@ -14,7 +14,7 @@ import br.com.alura.AluraFake.user.UserRepository;
 
 @DataJpaTest
 @ActiveProfiles("test")
-@Import({TaskRepository.class, CourseRepository.class})
+@Import({TaskRepository.class, CourseRepository.class, UserRepository.class})
 public class TaskRepositoryTest {
 
     @Autowired

@@ -19,7 +19,7 @@ import br.com.alura.AluraFake.user.UserRepository;
 
 @DataJpaTest
 @ActiveProfiles("test")
-@Import({CourseRepository.class})
+@Import({CourseRepository.class, UserRepository.class})
 public class CourseRepositoryTest {
 
     @Autowired

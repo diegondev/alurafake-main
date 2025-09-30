@@ -26,6 +26,8 @@ class UserControllerTest {
     @MockBean
     private UserRepository userRepository;
     @MockBean
+    private UserService userService;
+    @MockBean
     private CourseRepository courseRepository;
 
     @Autowired
@@ -68,7 +70,7 @@ class UserControllerTest {
         newUserDTO.setName("Caio Bugorin");
         newUserDTO.setRole(Role.STUDENT);
 
-        when(userRepository.existsByEmail(newUserDTO.getEmail())).thenReturn(true);
+        when(userService.existsByEmail(newUserDTO.getEmail())).thenReturn(true);
 
         mockMvc.perform(post("/user/new")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -97,7 +99,7 @@ class UserControllerTest {
     void listAllUsers__should_list_all_users() throws Exception {
         User user1 = new User("User 1", "user1@test.com",Role.STUDENT);
         User user2 = new User("User 2", "user2@test.com",Role.STUDENT);
-        when(userRepository.findAll()).thenReturn(Arrays.asList(user1, user2));
+        when(userService.listAll()).thenReturn(Arrays.asList(user1, user2));
 
         mockMvc.perform(get("/user/all")
                         .contentType(MediaType.APPLICATION_JSON))
