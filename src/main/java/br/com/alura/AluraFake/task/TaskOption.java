@@ -28,12 +28,6 @@ public class TaskOption {
     @Column(name = "is_correct", nullable = false)
     private boolean isCorrect;
 
-    public TaskOption(Task task, String option, boolean isCorrect) {
-        this.task = task;
-        this.option = option;
-        this.isCorrect = isCorrect;
-    }
-    
     public TaskOption(String option, boolean isCorrect) {
         this.option = option;
         this.isCorrect = isCorrect;

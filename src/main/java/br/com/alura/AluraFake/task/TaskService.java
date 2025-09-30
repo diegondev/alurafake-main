@@ -2,8 +2,11 @@ package br.com.alura.AluraFake.task;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import br.com.alura.AluraFake.shared.base.BaseService;
 
+@Service
 public class TaskService  extends BaseService<Task, TaskRepository, Long> {
     private final TaskValidatorService validatorService;
 

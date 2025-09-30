@@ -6,10 +6,9 @@ import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 import br.com.alura.AluraFake.course.Course;
-import br.com.alura.AluraFake.shared.base.BaseRepository;
 
 @Repository
-public class TaskRepository implements BaseRepository<Task, Long>, ITaskRepository {
+public class TaskRepository implements ITaskRepository {
 
     private final JpaTaskRepository repository;
 

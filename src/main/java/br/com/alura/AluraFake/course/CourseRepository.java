@@ -4,11 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import br.com.alura.AluraFake.shared.base.BaseRepository;
 import br.com.alura.AluraFake.user.User;
 
 @Repository
-public class CourseRepository implements BaseRepository<Course, Long> {
+public class CourseRepository implements ICourseRepository {
 
     private final JpaCourseRepository repository;
 
