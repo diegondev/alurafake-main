@@ -1,17 +1,13 @@
 package br.com.alura.AluraFake.user;
 
+import br.com.alura.AluraFake.shared.base.BaseEntity;
 import br.com.alura.AluraFake.util.PasswordGeneration;
-import jakarta.persistence.*;
-
-import java.time.LocalDateTime;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 @Entity
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private LocalDateTime createdAt = LocalDateTime.now();
+public class User extends BaseEntity<Long>{
     private String name;
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -31,10 +27,6 @@ public class User {
 
     public User(String name, String email, Role role) {
         this(name, email, role, PasswordGeneration.generatePassword());
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
     }
 
     public String getName() {
