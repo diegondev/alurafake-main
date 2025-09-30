@@ -1,6 +1,9 @@
 package br.com.alura.AluraFake.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import br.com.alura.AluraFake.course.CourseRepository;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -22,6 +25,8 @@ class UserControllerTest {
 
     @MockBean
     private UserRepository userRepository;
+    @MockBean
+    private CourseRepository courseRepository;
 
     @Autowired
     private ObjectMapper objectMapper;

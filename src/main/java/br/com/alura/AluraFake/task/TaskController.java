@@ -23,7 +23,7 @@ public class TaskController {
     }
 
     @PostMapping("/task/new/opentext")
-    public ResponseEntity newOpenTextExercise(@Valid @RequestBody NewTaskDTO newTask) {
+    public ResponseEntity newOpenText(@Valid @RequestBody NewTaskDTO newTask) {
         Task task = newTaskDTOMapper.toEntity(newTask);
         taskService.createOpenTextTask(task);
         return ResponseEntity.status(HttpStatus.CREATED).build();

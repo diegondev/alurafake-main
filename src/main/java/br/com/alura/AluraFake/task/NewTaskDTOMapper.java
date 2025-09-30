@@ -1,10 +1,13 @@
 package br.com.alura.AluraFake.task;
 
+import org.springframework.stereotype.Component;
+
 import br.com.alura.AluraFake.course.Course;
 import br.com.alura.AluraFake.course.CourseService;
 import br.com.alura.AluraFake.shared.base.BaseMapper;
 import br.com.alura.AluraFake.util.ValidationException;
 
+@Component
 public class NewTaskDTOMapper implements BaseMapper<Task, NewTaskDTO> {
 
     private final CourseService courseService;
