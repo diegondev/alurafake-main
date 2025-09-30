@@ -26,7 +26,7 @@ class NewCourseDTOMapperTest {
     private NewCourseDTOMapper newCourseDTOMapper;
 
     @Test
-    void should_map_dto_to_entity_when_instructor_is_valid() {
+    void toEntity__should_map_dto_to_entity_when_instructor_is_valid() {
         User instructor = new User("Paulo", "paulo@alura.com.br", Role.INSTRUCTOR);
         when(userRepository.findByEmail("paulo@alura.com.br")).thenReturn(Optional.of(instructor));
 
@@ -39,17 +39,17 @@ class NewCourseDTOMapperTest {
     }
 
     @Test
-    void should_throw_exception_when_instructor_email_not_found() {
-        when(userRepository.findByEmail("notfound@alura.com.br")).thenReturn(Optional.empty());
-
+    void toEntity__should_throw_exception_when_instructor_email_not_found() {
         NewCourseDTO dto = new NewCourseDTO("Java", "Curso de Java", "notfound@alura.com.br");
+
+        when(userRepository.findByEmail("notfound@alura.com.br")).thenReturn(Optional.empty());
 
         ValidationException ex = assertThrows(ValidationException.class, () -> newCourseDTOMapper.toEntity(dto));
         assertEquals("emailInstructor", ex.getField());
     }
 
     @Test
-    void should_throw_exception_when_user_is_not_instructor() {
+    void toEntity__should_throw_exception_when_user_is_not_instructor() {
         User user = new User("Joao", "joao@alura.com.br", Role.STUDENT);
         when(userRepository.findByEmail("joao@alura.com.br")).thenReturn(Optional.of(user));
 
