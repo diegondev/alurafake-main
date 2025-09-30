@@ -30,4 +30,9 @@ public class ValidationExceptionHandler {
     public ResponseEntity<ErrorMessageDTO> handleBusinessException(BusinessException ex) {
         return ResponseEntity.badRequest().body(new ErrorMessageDTO(ex.getMessage()));
     }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorMessageDTO> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessageDTO(ex.getMessage()));
+    }   
 }

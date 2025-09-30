@@ -10,6 +10,7 @@ import br.com.alura.AluraFake.course.CourseRepository;
 import br.com.alura.AluraFake.course.Status;
 import br.com.alura.AluraFake.shared.base.BaseService;
 import br.com.alura.AluraFake.util.BusinessException;
+import br.com.alura.AluraFake.util.ResourceNotFoundException;
 
 @Service
 public class UserService extends BaseService<User, UserRepository, Long> {
@@ -48,7 +49,7 @@ public class UserService extends BaseService<User, UserRepository, Long> {
     private User validateUserToGenerateReport(Long instructorId) {
         Optional<User> userOpt = repository.findById(instructorId);
         if (userOpt.isEmpty()) {
-            throw new BusinessException(MSG_USER_NOT_FOUND);
+            throw new ResourceNotFoundException(MSG_USER_NOT_FOUND);
         }
         User user = userOpt.get();
         if (user.getRole() != Role.INSTRUCTOR) {

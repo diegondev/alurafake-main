@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import br.com.alura.AluraFake.course.Course;
 import br.com.alura.AluraFake.course.CourseRepository;
 import br.com.alura.AluraFake.course.CourseService;
+import br.com.alura.AluraFake.util.ResourceNotFoundException;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -60,6 +61,7 @@ public class UserServiceTest {
             service.generateCourseReportByInstructor(instructorId);
         } catch (Exception e) {
             assertTrue(e.getMessage().equals(UserService.MSG_USER_NOT_FOUND));
+            assertTrue(e instanceof ResourceNotFoundException);
         }
 
         verify(repository).findById(instructorId);
